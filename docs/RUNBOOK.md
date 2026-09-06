@@ -1,6 +1,6 @@
 ---
 title: Pi Fork Production Readiness Runbook
-version: 1.3.1
+version: 1.4.0
 status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
@@ -333,7 +333,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 |---|---|
 | Objective | Run the KEEP CI workflow on the exact guarded candidate SHA. |
 | Why | Upstream/local evidence cannot prove fork CI; exact candidate execution is required. |
-| Context | Runs `34012635278` and `34012648732` passed on evidence head `3064da9fbfd4d14d68cbf2ed533f964e4b9df599`, which contains candidate source `380320568a18a773d7847fbaf6837cb97502db55`. |
+| Context | Main CI run `34014481660` failed because `runClient()` unsubscribed before replicated `run_end` delivery. Candidate source `f2858ead77530b5bf86bd787b141a83e7a2daa41` repairs that race; push run `34014966796`, PR run `34014979030`, and post-merge run `34015185239` all passed. |
 | Read first | `ci.yml`, candidate diff, GUIDE validation, GitHub Actions state. |
 | Requirements | REQ-005. |
 | In scope | Human-authorized push of the immutable candidate to `codex/pi-fork-production-readiness`; observe the resulting run/jobs. |
@@ -437,9 +437,9 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Field | Observed result |
 |---|---|
 | Decision | **READY at 99% confidence** for controlled internal fork use under `FORK_POLICY.md`. |
-| Source | Candidate source `380320568a18a773d7847fbaf6837cb97502db55`; no product-source change. |
-| Integration | PR#3 merged at exact head `1f346820c9c12c3392b4a5e397d73c879d000b3b` on 2026-09-06T05:09:08Z. |
-| Checks | PR and post-merge CI, npm audit/signatures, and both CodeQL analyses completed successfully. |
+| Source | Candidate source `f2858ead77530b5bf86bd787b141a83e7a2daa41`; one narrow product repair is justified by mandatory CI failure `34014481660`. |
+| Integration | PR#6 merged at exact head `f2858ead77530b5bf86bd787b141a83e7a2daa41` on 2026-09-06T05:55:38Z. |
+| Checks | Candidate push/PR and post-merge CI, npm audit/signatures, both CodeQL analyses, 20 repeated focused tests, and the 26-test remote-runtime file completed successfully. |
 | Workflow safety | Two KEEP workflows active; eight DISABLE workflows guarded and `disabled_manually`; no unauthorized job/effect observed. |
 | Security | Dependabot open count zero; 532 inherited CodeQL alerts and two deleted-path historical secret alerts remain disclosed and open. |
 | Governance | Strict four-check protection, admin enforcement, linear history, conversation resolution, and force/delete denial restored and verified. |

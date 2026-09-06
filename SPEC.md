@@ -1,6 +1,6 @@
 ---
 title: Pi Fork Production Readiness Specification
-version: 1.3.1
+version: 1.4.0
 status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
@@ -19,7 +19,8 @@ owner: Frictionless Labs Repository Maintainer
 This specification governs the minimal readiness delta for public fork
 `Frictionless-Labs/pi`, sourced from `earendil-works/pi`. Current-turn Repository Maintainer
 authorization permits the bounded GitHub settings, evidence-only commits, readiness-branch pushes,
-PR, merge, and verification needed to finish this cycle. Product changes, credentials, release tags,
+PR, merge, and verification needed to finish this cycle. Product changes remain out of scope except
+for a narrow repair proven necessary by a failing mandatory gate. Credentials, release tags,
 package/GitHub Release/model-catalog publication, R2 writes, and deployment remain out of scope.
 
 | Fact | Current observed value | Authority |
@@ -28,19 +29,19 @@ package/GitHub Release/model-catalog publication, R2 writes, and deployment rema
 | Rollback ref | `frictionless-readiness-baseline-20260904` resolves to the baseline | Local Git |
 | Frozen stable target | `v0.85.1` at `d981de1229ef899957bbe968bc8dcda02a21f477` | Git + GitHub release |
 | Target release state | Published 2026-09-05T12:29:01Z; non-draft; non-prerelease | GitHub API |
-| Candidate-source revision | `380320568a18a773d7847fbaf6837cb97502db55` | Local Git + fork GitHub API |
-| Merged readiness head | `1f346820c9c12c3392b4a5e397d73c879d000b3b`; PR#3 merged 2026-09-06T05:09:08Z | Git + fork GitHub API |
-| Fork `main` | Merged readiness head `1f346820c9c12c3392b4a5e397d73c879d000b3b`; upstream and fork commit identities preserved | Fork GitHub API |
+| Candidate-source revision | `f2858ead77530b5bf86bd787b141a83e7a2daa41` | Local Git + fork GitHub API |
+| Merged readiness head | `f2858ead77530b5bf86bd787b141a83e7a2daa41`; PR#6 merged 2026-09-06T05:55:38Z | Git + fork GitHub API |
+| Fork `main` | Merged readiness head `f2858ead77530b5bf86bd787b141a83e7a2daa41`; upstream and fork commit identities preserved | Fork GitHub API |
 | Baseline-to-target lineage delta | 720 commits; 883 files; 111675 insertions; 27866 deletions | Local Git |
 | Required runtime | Node `>=22.19.0` | `package.json` |
 | Observed runtime | macOS 26.6.2 arm64; Git 2.50.1; Node v26.7.0; npm 11.19.0 | Local CLI |
 | Codex runtime | 0.145.0; `read-only`, `workspace-write`, `danger-full-access`; `untrusted`, `on-request`, `never` | Installed CLI help |
 | Repository-local Codex config | None | Worktree scan |
-| GitHub Actions state | Observed 2026-09-06T05:02Z: enabled; SHA pinning required; default token `read`; CI/audit active; eight upstream-only workflows `disabled_manually` | Fork GitHub API |
-| GitHub governance | Observed 2026-09-06T05:02Z: protected `main`; four strict CI/audit/CodeQL checks; admin enforcement restored; PR-only, linear-history, conversation-resolution, no-force-push, no-delete; zero platform approvals because MIKKOH is the sole collaborator | Fork GitHub API |
+| GitHub Actions state | Observed 2026-09-06T06:03Z: enabled; SHA pinning required; default token `read`; CI/audit active; eight upstream-only workflows `disabled_manually` | Fork GitHub API |
+| GitHub governance | Observed 2026-09-06T06:03Z: protected `main`; four strict CI/audit/CodeQL checks; admin enforcement restored; PR-only, linear-history, conversation-resolution, no-force-push, no-delete; zero platform approvals because MIKKOH is the sole collaborator | Fork GitHub API |
 | GitHub security | Observed 2026-09-06T04:47:15Z: vulnerability alerts, Dependabot security updates, secret scanning, and push protection enabled; paid-only non-provider and validity checks disabled; CodeQL default setup uses the extended suite on standard runners | Fork GitHub API |
-| CodeQL evidence | Adoption run `34012647603` found 532 inherited alerts; PR#3 run `34013039523` succeeded with zero fork-delta alerts | Fork GitHub API |
-| Post-merge verification | Exact-SHA CI `34013262552`, audit `34013305833`, and CodeQL `34013261982`; all completed successfully | Fork GitHub API |
+| CodeQL evidence | Adoption run `34012647603` found 532 inherited alerts; PR#6 run `34014978444` succeeded with zero open PR alerts | Fork GitHub API |
+| Post-merge verification | Exact-SHA CI `34015185239`, audit `34015193772`, and CodeQL `34015184916`; all completed successfully | Fork GitHub API |
 
 ## Source availability and authority
 
@@ -141,7 +142,8 @@ policy and evidence records. The Repository Maintainer owns irreversible decisio
 - Baseline is an ancestor of target and current pre-readiness HEAD equals target.
 - The observed operation began with target-aligned branch creation at `v0.85.1`; the preserved
   baseline is an ancestor of that target with a 720-commit, 883-file lineage delta. The authorized
-  integration then fast-forwarded `main` exactly to the target and to merged PR#3 head `1f346820...`.
+  integration then fast-forwarded `main` exactly to the target, the readiness controls, and the
+  repaired PR#6 head `f2858ead...` without rewriting any commit identity.
 - All fork readiness edits are attributable after target alignment and remain within approved paths.
 - Any required product-code edit must be separately justified by a failing mandatory gate.
 
@@ -253,8 +255,9 @@ classification before untrusted Pi use.
 - Every runbook task includes all required deterministic brief fields and exact validation.
 - Artifact checks find all MOD, REQ, TEST, TASK, VIZ-07, and VIZ-08 identifiers with no stale
   claim that `untrusted` was removed.
-- The readiness delta contains no product, dependency, lockfile, generated, or Git metadata edit;
-  workflow edits are limited to reviewed job guards plus the KEEP CI trigger and token hardening.
+- The readiness delta contains one mandatory-gate-driven product repair, two security lockfile
+  repairs, and no generated or Git metadata edit; workflow edits remain limited to reviewed job
+  guards plus the KEEP CI trigger and token hardening.
 
 **Done gate:** TEST-009 and documentation-scope validation PASS before TASK-GUIDE-003 execution.
 
@@ -284,8 +287,9 @@ classification before untrusted Pi use.
   release, npm, model-catalog, R2, issue, PR, or comment mutation occurred. Dependabot's expected
   auto-closure of redundant PR#1/PR#2 and its two closure comments are explicitly attributed.
 
-**Done gate:** PASS. The Repository Maintainer gave explicit GO; all mandatory gates, PR#3 CodeQL,
-the exact fast-forward integration, and post-merge verification completed successfully.
+**Done gate:** PASS. The Repository Maintainer gave explicit GO; the failed terminal-event gate was
+repaired, all mandatory gates and PR#6 CodeQL passed, and exact fast-forward integration plus
+post-merge verification completed successfully.
 
 ## Test catalog
 

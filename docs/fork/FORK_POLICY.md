@@ -1,6 +1,6 @@
 ---
 title: Frictionless Labs Pi Fork Policy
-version: 1.3.1
+version: 1.4.0
 status: ACTIVE
 created_date: 2026-09-04
 updated_date: 2026-09-06
@@ -45,13 +45,14 @@ Maintainer explicitly authorized this retarget on 2026-09-05.
 
 This cycle created a new isolated readiness branch directly at the frozen release after proving the
 preserved baseline is its ancestor. The authorized integration then fast-forwarded `main` exactly
-to the target and merged PR#3 head without rebase, squash, force-push, or rewritten commit identity.
+to the target, the readiness controls, and repaired PR#6 head without rebase, squash, force-push,
+or rewritten commit identity.
 
 ## Delta ownership
 
 | Surface | Accountable owner | Required review | Default disposition |
 |---|---|---|---|
-| Upstream-derived product code | Upstream maintainers for source; Frictionless Maintainer for adoption | Delivery review and full relevant validation | Preserve unchanged. |
+| Upstream-derived product code | Upstream maintainers for source; Frictionless Maintainer for adoption | Delivery review and full relevant validation | Preserve unchanged unless a mandatory gate proves a narrow fork repair necessary. |
 | Fork governance/docs | Frictionless Repository Maintainer | Delivery review | Maintain locally. |
 | Workflow dispositions/guards | Frictionless Repository Maintainer | Security review | Two KEEP; eight upstream-only DISABLE. |
 | Dependencies/lockfiles | Package owners + Repository Maintainer | Supply-chain review | No readiness-only change. |
@@ -118,8 +119,10 @@ and force-push/deletion denial. The platform approval count is zero because MIKK
 only collaborator; a nonzero count would deadlock. Current-turn human GO plus independent agent
 review is the approved single-maintainer review control. To avoid rewriting 720 upstream commit
 identities through squash/rebase, the maintainer authorized exact fast-forwards from baseline to
-the frozen target and from target to the reviewed PR#3 head while admin enforcement was briefly
-disabled; it was restored immediately after each transition with all protection fields unchanged.
+the frozen target, then through reviewed PR#3–PR#6 heads while admin enforcement was briefly
+disabled for each exact non-force transition; it was restored immediately with all protection
+fields unchanged. GitHub reported the expected `audit` check during these transitions because the
+successful workflow-dispatch check was exact-SHA but absent from the PR status rollup.
 
 ## Recovery
 
@@ -154,7 +157,8 @@ deployment, publication, or destructive recovery.
 
 READY requires confidence >=98%, 100% mandatory P0 execution PASS, no P0/P1 blocker, complete
 candidate-keyed evidence, independent review, verified merge governance, TEST-014, and explicit
-human GO. Candidate source `38032056...` includes the readiness controls and mandatory nested-lock
-security repairs. PR#3 merged as exact head `1f346820...`; exact-SHA CI, audit, CodeQL, isolation,
-merge governance, post-merge effect proof, and TEST-014 passed. Readiness is **READY at 99%** for
-controlled internal fork use under the trust and publication boundaries in this policy.
+human GO. Candidate source `f2858ead...` includes the readiness controls, mandatory nested-lock
+security repairs, and the narrow terminal-event ordering repair proven by failed CI run
+`34014481660`. PR#6 merged as that exact head; candidate and post-merge CI, audit, CodeQL,
+isolation, merge governance, post-merge effect proof, and TEST-014 passed. Readiness is **READY at
+99%** for controlled internal fork use under the trust and publication boundaries in this policy.
