@@ -1,14 +1,14 @@
 ---
 title: Pi Fork Production Readiness Specification
-version: 1.1.0
-status: BLOCKED
+version: 1.2.0
+status: IN_PROGRESS
 created_date: 2026-09-04
-updated_date: 2026-09-05
+updated_date: 2026-09-06
 tags:
   - pi
   - fork-governance
   - production-readiness
-confidence: 0.97
+confidence: 0.98
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -17,11 +17,10 @@ owner: Frictionless Labs Repository Maintainer
 ## Scope and live baseline
 
 This specification governs the minimal readiness delta for public fork
-`Frictionless-Labs/pi`, sourced from `earendil-works/pi`. It does not authorize product changes,
-publication, repository-setting changes, credentials, or merge, and grants no standing push authority. A
-separate one-time human authorization recorded for this cycle permits one reviewed candidate
-commit and one push to `codex/pi-fork-production-readiness`; it grants no PR, merge, settings,
-release, deployment, or publication authority.
+`Frictionless-Labs/pi`, sourced from `earendil-works/pi`. Current-turn Repository Maintainer
+authorization permits the bounded GitHub settings, evidence-only commits, readiness-branch pushes,
+PR, merge, and verification needed to finish this cycle. Product changes, credentials, release tags,
+package/GitHub Release/model-catalog publication, R2 writes, and deployment remain out of scope.
 
 | Fact | Current observed value | Authority |
 |---|---|---|
@@ -29,15 +28,17 @@ release, deployment, or publication authority.
 | Rollback ref | `frictionless-readiness-baseline-20260904` resolves to the baseline | Local Git |
 | Frozen stable target | `v0.85.1` at `d981de1229ef899957bbe968bc8dcda02a21f477` | Git + GitHub release |
 | Target release state | Published 2026-09-05T12:29:01Z; non-draft; non-prerelease | GitHub API |
-| Current worktree HEAD | `d981de1229ef899957bbe968bc8dcda02a21f477` | Local Git |
+| Candidate-source revision | `380320568a18a773d7847fbaf6837cb97502db55`; remote update pending this evidence revision | Local Git |
+| Current worktree HEAD | `380320568a18a773d7847fbaf6837cb97502db55` before this evidence-only revision | Local Git |
 | Baseline-to-target lineage delta | 720 commits; 883 files; 111675 insertions; 27866 deletions | Local Git |
 | Required runtime | Node `>=22.19.0` | `package.json` |
 | Observed runtime | macOS 26.6.2 arm64; Git 2.50.1; Node v26.7.0; npm 11.19.0 | Local CLI |
 | Codex runtime | 0.145.0; `read-only`, `workspace-write`, `danger-full-access`; `untrusted`, `on-request`, `never` | Installed CLI help |
 | Repository-local Codex config | None | Worktree scan |
-| GitHub Actions state | Observed 2026-09-06T00:18:28Z: enabled; `allowed_actions=all`; `sha_pinning_required=false`; 10 workflows; readiness branch absent; target-SHA runs 0 | Fork GitHub API |
-| GitHub governance | Observed 2026-09-06T00:18:28Z: rulesets `[]`; `main` returned `Branch not protected` (HTTP 404) | Fork GitHub API |
-| GitHub security | Observed 2026-09-06T00:18:28Z: Dependabot security updates and all reported secret-scanning controls disabled; repository Actions secrets 0; environments 0. Dependabot alerts returned disabled (HTTP 403) and code scanning returned no analysis (HTTP 404); both queries also reported missing `admin:repo_hook`, so alert details remain `PERMISSION`-limited | Fork GitHub API |
+| GitHub Actions state | Observed 2026-09-06T04:47:15Z: enabled; `allowed_actions=all`; `sha_pinning_required=true`; default token `read`; PR approval disabled; 10 workflows | Fork GitHub API |
+| GitHub governance | Observed 2026-09-06T04:47:15Z: protected `main`; strict required checks `build-check-test` and `audit`; admin enforcement; PR-only, linear-history, conversation-resolution, no-force-push, no-delete; zero platform approvals because MIKKOH is the sole collaborator | Fork GitHub API |
+| GitHub security | Observed 2026-09-06T04:47:15Z: vulnerability alerts, Dependabot security updates, secret scanning, and push protection enabled; paid-only non-provider and validity checks disabled; CodeQL default setup uses the extended suite on standard runners | Fork GitHub API |
+| Baseline CodeQL | Run `34012114853` succeeded on old `main` SHA `ac4ac9e...`; 491 inherited open alerts require candidate differential review and are not a security PASS | Fork GitHub API |
 
 ## Source availability and authority
 
@@ -281,7 +282,7 @@ classification before untrusted Pi use.
   release, npm, model-catalog, R2, issue, PR, or comment mutation occurred.
 
 **Done gate:** Repository Maintainer may record READY only after all mandatory gates pass and gives
-explicit GO. Current status remains BLOCKED.
+explicit GO. Current-turn GO is recorded; PR, candidate CodeQL, merge, and post-merge proof remain.
 
 ## Test catalog
 
@@ -384,7 +385,8 @@ attributed to either unavailable Downloads document.
 Within the **[DERIVED]** request-and-repository ledger above, P0 requirements are REQ-001 through
 REQ-009, REQ-011, and REQ-013. The table maps all 11, so internal design trace coverage for the
 actually read sources is 11/11 = 100%; alignment with the two unavailable Downloads documents is
-**[UNVERIFIED]**, and execution pass coverage remains below 100% while remote gates are blocked.
+**[UNVERIFIED]**. Candidate CI, audit, secret scan, isolation, and governance now have direct evidence;
+candidate CodeQL, PR merge, and post-merge verification remain before final execution coverage.
 
 ### VIZ-08 — Requirement-to-outcome traceability
 

@@ -1,14 +1,14 @@
 ---
 title: Frictionless Labs Pi Fork Policy
-version: 1.1.0
+version: 1.2.0
 status: ACTIVE
 created_date: 2026-09-04
-updated_date: 2026-09-05
+updated_date: 2026-09-06
 tags:
   - pi
   - fork-policy
   - governance
-confidence: 0.97
+confidence: 0.98
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -56,7 +56,7 @@ separately authorized merge path and never permits rebase, history rewrite, forc
 | Fork governance/docs | Frictionless Repository Maintainer | Delivery review | Maintain locally. |
 | Workflow dispositions/guards | Frictionless Repository Maintainer | Security review | Two KEEP; eight upstream-only DISABLE. |
 | Dependencies/lockfiles | Package owners + Repository Maintainer | Supply-chain review | No readiness-only change. |
-| GitHub settings/rulesets | Repository Maintainer | Security/Delivery review | Human-only; current absence blocks gate. |
+| GitHub settings/rulesets | Repository Maintainer | Security/Delivery review | Protected `main` and free-tier security controls are enabled and verified. |
 | Credentials/environments | Credential owner, currently unknown where upstream-specific | Security review | Never copy/substitute; unavailable means disabled. |
 | Release/distribution infrastructure | No Frictionless owner established by this policy | Separate architecture/security/release decision | Prohibited. |
 
@@ -91,14 +91,12 @@ are KEEP. The other eight current workflows are DISABLE through TASK-GUIDE-003 r
 The complete per-file contract is in `WORKFLOW_DISPOSITION.md`.
 
 Repository workflow content, GitHub server active state, Actions policy, environments, and secrets
-are distinct state planes. The current fork snapshot at 2026-09-06T00:18:28Z showed Actions enabled,
-`allowed_actions=all`, `sha_pinning_required=false`, ten workflows, no readiness branch, zero target-
-SHA runs, zero repository environments, and zero repository Actions secrets. It also reported every
-listed secret-scanning control and Dependabot security updates disabled. Dependabot alerts returned
-disabled (HTTP 403) and code scanning returned no analysis (HTTP 404); both queries reported missing
-`admin:repo_hook`, so their alert details remain `PERMISSION`-limited. Repository counts do not
-prove that organization or other hidden credentials are absent. The 2026-09-04 v0.85.0 snapshot is
-preserved only as superseded history in `READINESS_EVIDENCE.md`.
+are distinct state planes. The 2026-09-06T04:47:15Z snapshot showed Actions enabled, full-SHA
+pinning required, a read-only default workflow token, the readiness branch present, and candidate
+CI/audit runs successful. Vulnerability alerts, Dependabot security updates, secret scanning, push
+protection, and CodeQL default setup are enabled. Paid-only non-provider-pattern and validity checks
+remain disabled to preserve a free-only control plane. Repository counts do not prove organization
+or other hidden credentials are absent; upstream-specific jobs remain guarded.
 
 ## Merge governance
 
@@ -112,9 +110,11 @@ preserved only as superseded history in `READINESS_EVIDENCE.md`.
 | Merge | Authorized PR/branch path only; no direct autonomous push. |
 | Post-check | `main` relationship and all triggered runs/effects observed; TEST-014 PASS. |
 
-The current 2026-09-06T00:18:28Z fork snapshot returned zero rulesets and `Branch not protected`
-for `main` (HTTP 404). This is a blocked merge gate, not evidence that an unprotected merge is
-acceptable. Any settings change requires explicit authorization.
+The 2026-09-06T04:47:15Z fork snapshot proves `main` protection with strict `build-check-test` and
+`audit` checks, admin enforcement, PR-only integration, linear history, conversation resolution,
+and force-push/deletion denial. The platform approval count is zero because MIKKOH is the repository's
+only collaborator; a nonzero count would deadlock. Current-turn human GO plus independent agent
+review is the approved single-maintainer review control.
 
 ## Recovery
 
@@ -132,14 +132,14 @@ Release, R2 upload, issue/PR mutation, comment, or credential exposure.
 
 ## Human-only operations
 
-This policy grants no standing authority for any operation below. A separately recorded one-time
-human authorization permits this cycle's one reviewed candidate commit and one push to
-`codex/pi-fork-production-readiness`; it does not authorize a PR, merge, settings change, release,
-deployment, publication, or any later push.
+Current-turn Repository Maintainer authorization permits the bounded free-tier settings, evidence
+commits/pushes, PR, protected merge, and post-merge verification required to complete this cycle.
+It grants no standing authority after the cycle and does not authorize credentials, releases,
+deployment, publication, or destructive recovery.
 
 - Freeze or change the upstream target after review.
-- Push any other branch/ref, open or merge a PR, or approve final readiness.
-- Create/change rulesets, branch protection, Actions policy, workflow server state, environments, or secrets.
+- Push any unrelated branch/ref or approve readiness for a later cycle.
+- Change environments, secrets, or workflow server state outside the bounded readiness controls.
 - Create/push `v*` tags; run release scripts; publish/unpublish npm packages or GitHub Releases.
 - Publish model catalogs or release announcements; write/delete R2 or production infrastructure.
 - Copy, create, rotate, revoke, or delete credentials and access grants.
@@ -149,8 +149,7 @@ deployment, publication, or any later push.
 
 READY requires confidence >=98%, 100% mandatory P0 execution PASS, no P0/P1 blocker, complete
 candidate-keyed evidence, independent review, verified merge governance, TEST-014, and explicit
-human GO. TASK-GUIDE-003 local validation proves all 16 upstream-only DISABLE job guards, but no immutable
-candidate or v0.85.1 fork run exists yet. Pre-candidate dependency, signature, and redacted scan
-observations passed but must be repeated against the candidate source. Current state is BLOCKED by
-absent candidate-keyed CI/security evidence, isolation proof, merge governance, and remote-effect
-evidence.
+human GO. Previous source `99ad976e...` passed fork CI, dependency/signature audit, and redacted
+secret scan. Current candidate `38032056...` adds mandatory nested-lock security repairs and has
+isolation and merge-governance proof; exact-head remote checks, the protected PR's CodeQL
+differential, merge, and post-merge effect proof remain.

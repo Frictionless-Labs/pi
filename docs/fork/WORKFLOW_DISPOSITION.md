@@ -1,9 +1,9 @@
 ---
 title: Pi Fork Workflow Disposition
-version: 1.1.0
-status: BLOCKED
+version: 1.2.0
+status: IN_PROGRESS
 created_date: 2026-09-04
-updated_date: 2026-09-05
+updated_date: 2026-09-06
 tags:
   - pi
   - github-actions
@@ -22,13 +22,12 @@ the upstream workflow source while making its jobs executable only when
 `github.repository == 'earendil-works/pi'`. Unknown credential ownership or missing services cannot
 be replaced with personal/Frictionless credentials under this readiness program.
 
-The current fork snapshot at 2026-09-06T00:18:28Z reported all ten workflows present, Actions
-enabled, `allowed_actions=all`, `sha_pinning_required=false`, no readiness branch, zero target-SHA
-runs, zero repository environments, and zero repository Actions secrets. It reported all listed
-secret-scanning controls and Dependabot security updates disabled. Dependabot alerts returned
-disabled (HTTP 403) and code scanning returned no analysis (HTTP 404); both queries also reported
-missing `admin:repo_hook`, so alert details remain `PERMISSION`-limited. Workflow references below
-are source interfaces; repository counts do not prove organization or other hidden credentials absent.
+The 2026-09-06T04:47:15Z fork snapshot reported all ten workflows present, Actions enabled,
+`sha_pinning_required=true`, a read-only default token, and the readiness branch present. Exact-SHA
+candidate CI run `34005005641` and audit run `34005225780` succeeded. Vulnerability alerts,
+Dependabot security updates, secret scanning, push protection, and CodeQL default setup are enabled.
+Workflow references below are source interfaces; repository counts do not prove organization or
+other hidden credentials absent.
 
 ## Complete inventory
 
@@ -40,7 +39,7 @@ are source interfaces; repository counts do not prove organization or other hidd
 | `.github/workflows/issue-analysis.yml` | Issue labeled; issue comment created | Workflow: `contents: read`, `issues: write` | `EARENDIL_ORG_READ_TOKEN`; `PI_AUTH_JSON`; `PI_AUTH_UPDATE_TOKEN`; `PI_GIST_TOKEN`; automatic `GITHUB_TOKEN` | `pi-analyze` | Reads Earendil staff membership; labels/comments issues; runs credentialed Pi; updates environment secret; creates private gist | `earendil-works/staff`, `@issuron`, pi.dev session sharing, Earendil-owned credential process | No readiness value / organization auth, model credentials, secret write, gist and issue mutations | **DISABLE** | TASK-GUIDE-003: upstream-only guard implemented on `authorize` and `analyze`, composed with the existing analysis condition; static validation passed. Runtime evidence remains pending. |
 | `.github/workflows/issue-gate.yml` | Issue opened | Job: `contents: read`, `issues: write` | Automatic `GITHUB_TOKEN` interface; no named stored secret | None | Comments, labels, and closes public issues | Upstream approved-contributor file, trusted bot list, contribution policy | No readiness value / can close legitimate fork issues and send upstream-branded guidance | **DISABLE** | TASK-GUIDE-003: upstream-only identity guard implemented on `check-contributor`; static guard, trigger, permission, and pin validation passed. Runtime evidence remains pending. |
 | `.github/workflows/issue-triage-labels.yml` | Issue reopened or labeled | Job: `issues: write` | Automatic `GITHUB_TOKEN` interface; no named stored secret | None | Adds/removes labels and closes issues | Upstream label taxonomy and triage flow | No readiness value / bulk public issue mutation with unadopted governance | **DISABLE** | TASK-GUIDE-003: upstream-only guard implemented on `update-labels`; static guard, trigger, permission, and pin validation passed. Runtime evidence remains pending. |
-| `.github/workflows/npm-audit.yml` | Daily schedule `37 7 * * *`; manual dispatch | Workflow: `contents: read` | None | None | No external write; installs without lifecycle scripts, queries npm audit/signature services | Canonical npm registry/security policy only | Essential dependency/signature evidence / registry availability and changing advisory data | **KEEP** | Run on exact candidate SHA; both audit commands exit 0; record run ID/UTC; full-SHA action pins remain. **Currently BLOCKED: zero runs.** |
+| `.github/workflows/npm-audit.yml` | Daily schedule `37 7 * * *`; manual dispatch | Workflow: `contents: read` | None | None | No external write; installs without lifecycle scripts, queries npm audit/signature services | Canonical npm registry/security policy only | Essential dependency/signature evidence / registry availability and changing advisory data | **KEEP** | Previous-source run `34005225780` passed on `99ad976e...`; rerun on every later evidence head before merge. |
 | `.github/workflows/pr-gate.yml` | `pull_request_target: opened` | Job: `contents: read`, `issues: write`, `pull-requests: write` | Automatic `GITHUB_TOKEN` interface; no named stored secret | None | Comments on and closes public PRs | Upstream approved-contributor gate, bot list, contribution policy | No readiness value / privileged base-context event can close fork PRs and post upstream policy | **DISABLE** | TASK-GUIDE-003: upstream-only guard implemented on `check-contributor`; static guard, trigger, permission, and pin validation passed. Runtime evidence remains pending. |
 | `.github/workflows/publish-model-catalog.yml` | Successful `CI` workflow run on `main`; selected PR paths; weekday schedule `17 8-13 * * 1-5`; manual dispatch | Workflow: `contents: read` | `PI_ARTIFACTS_R2_ACCESS_KEY_ID`; `PI_ARTIFACTS_R2_SECRET_ACCESS_KEY` | `pi-model-upload` | Uploads GitHub artifact; may write production model catalog to R2 | pi.dev production R2 bucket/endpoint, Vienna publication window, upstream CI name | Generation has diagnostic value but publication is unnecessary / automatic chain can mutate production R2 | **DISABLE** | TASK-GUIDE-003: upstream-only guard implemented on `generate` and `publish`, composed with their existing conditions; static validation passed. Runtime evidence remains pending. |
 | `.github/workflows/remove-inprogress-on-close.yml` | Issue closed | Job: `issues: write` | Automatic `GITHUB_TOKEN` interface; no named stored secret | None | Removes `inprogress` label from public issue | Upstream issue label taxonomy | No readiness value / unadopted public issue mutation | **DISABLE** | TASK-GUIDE-003: upstream-only guard implemented on `remove-label`; static guard, trigger, permission, and pin validation passed. Runtime evidence remains pending. |

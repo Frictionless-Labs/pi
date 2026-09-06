@@ -1,14 +1,14 @@
 ---
 title: Pi Fork Production Readiness Runbook
-version: 1.1.0
-status: BLOCKED
+version: 1.2.0
+status: IN_PROGRESS
 created_date: 2026-09-04
-updated_date: 2026-09-05
+updated_date: 2026-09-06
 tags:
   - pi
   - asgd
   - runbook
-confidence: 0.97
+confidence: 0.98
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -43,7 +43,8 @@ secret exposure, scope breach, destructive requirement, or unowned decision.
 | `PRE-EXISTING` failure | Prove independently; record it; do not call the gate PASS or mask it. |
 | `ENVIRONMENT` or `DEPENDENCY` failure | Record reproduction; restore the required environment/service without source churn. |
 | `ARCHITECTURE` or `PERMISSION` failure | Return to ASSESS/STRATEGIZE and obtain the named human decision. |
-| External, destructive, settings, credential, push, merge, or publication step | Stop at the human gate with exact prepared action and evidence. |
+| Authorized settings, evidence push, PR, or merge step | Execute only the bounded current-cycle operation; reverify state and evidence immediately after. |
+| Credential, release, publication, deployment, or destructive step | Stop at the human gate; these remain outside current authorization. |
 
 ## Deterministic phase gates
 
@@ -331,13 +332,13 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Field | Contract |
 |---|---|
 | Objective | Run the KEEP CI workflow on the exact guarded candidate SHA. |
-| Why | The fork has zero workflow runs; upstream/local evidence cannot prove fork CI. |
-| Context | The exact readiness-branch push trigger is `codex/pi-fork-production-readiness`; it runs the pushed candidate workflow source and CI builds, checks, and tests on Node 22 after script-disabled install. This specification grants no standing push authority. The cycle plan records one human authorization for one reviewed candidate-branch push. |
+| Why | Upstream/local evidence cannot prove fork CI; exact candidate execution is required. |
+| Context | Run `34005005641` passed on candidate source `99ad976ec33edce98860132d6b613a2adbc48f58`; every evidence-only revision must receive fresh exact-head checks. |
 | Read first | `ci.yml`, candidate diff, GUIDE validation, GitHub Actions state. |
 | Requirements | REQ-005. |
 | In scope | Human-authorized push of the immutable candidate to `codex/pi-fork-production-readiness`; observe the resulting run/jobs. |
 | Out of scope | Release tags/workflows, publication credentials, bypassing checks. |
-| Allowed surface | One candidate-branch push and resulting GitHub run state under the recorded one-time authorization; PR creation still requires separate authorization. |
+| Allowed surface | Current-cycle readiness-branch evidence pushes, PR, and resulting GitHub run state under explicit current-turn authorization. |
 | Protected surface | Releases, packages, R2, secrets, repository settings. |
 | Implementation requirements | Use the exact readiness-branch push path once; workflow source SHA, checkout SHA, and run head SHA must each equal the pushed immutable candidate-source SHA. Retain stable run URL/ID, jobs, conclusion, UTC, and the later evidence-record revision that indexes the run. |
 | Stable interfaces | TEST-005 `EvidenceRecord`. |
@@ -352,8 +353,8 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Field | Contract |
 |---|---|
 | Objective | Prove dependency integrity and zero live credentials introduced by the candidate. |
-| Why | GitHub security scanners are currently disabled and no audit run exists. |
-| Context | `npm-audit.yml` is KEEP; repository Actions secrets/environments are zero, which does not prove org secrets absent. |
+| Why | Dependency, signature, and secret evidence must be candidate-keyed even when server controls are enabled. |
+| Context | Run `34005225780` passed on candidate source `99ad976e...`; secret scanning and push protection are enabled; repository Actions secrets/environments are zero, which does not prove org secrets absent. |
 | Read first | `npm-audit.yml`, dependency policy, candidate diff/history scope, approved scanner docs. |
 | Requirements | REQ-006, REQ-007. |
 | In scope | Candidate-keyed audit/signature run and approved redacted secret scan. |
@@ -373,21 +374,21 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Field | Contract |
 |---|---|
 | Objective | Verify GitHub merge controls and review the candidate as another engineer's work. |
-| Why | Current rulesets are zero and `main` protection is absent; self-review alone cannot authorize merge. |
-| Context | Repository settings changes are human-only. Current state blocks the merge-control gate. |
+| Why | Merge controls and independent review must be proven before integration. |
+| Context | `main` protection now enforces strict CI/audit checks, PRs, admin enforcement, linear history, conversation resolution, and force-push/deletion denial. MIKKOH is the sole collaborator, so a nonzero platform approval count would deadlock this public fork; explicit human GO plus independent agent review is the approved control. |
 | Read first | Branch/ruleset API evidence, full candidate diff, all TEST evidence, fork policy. |
 | Requirements | REQ-010, REQ-012, REQ-014. |
-| In scope | Read-only settings evidence and independent 15-dimension review. |
-| Out of scope | Enabling protection/rulesets, merging, dismissing findings, admin bypass. |
-| Allowed surface | Evidence docs when authorized. |
-| Protected surface | GitHub settings and branch state. |
+| In scope | Settings verification, independent 15-dimension review, and bounded protection changes needed for required candidate checks. |
+| Out of scope | Dismissing findings, bypassing protection, or weakening required checks. |
+| Allowed surface | Evidence docs and the authorized `main` protection/API settings. |
+| Protected surface | Release refs, credentials, environments, packages, catalogs, and deployments. |
 | Implementation requirements | Review correctness, trace, provenance, workflow/supply-chain/secret/trust safety, tests, failure, rollback, scope, drift, effects. |
 | Stable interfaces | Finding: severity, REQ/TASK, evidence, fix, validation, release impact. |
 | Edge cases | Missing API scope, stale evidence, candidate changed during review, reviewer conflict. |
 | Exact validation | Query rulesets/protection/required checks/reviews/bypass; verify candidate SHA; inspect full diff; ensure every finding disposition is evidenced. |
 | Completion evidence | Settings result, reviewer identity/UTC, findings, repairs/reruns, human decision required. |
 | Failure rule | Absent or unknown merge controls and any unresolved release blocker prevent human GO. |
-| Final response contract | `DONE_WITH_CONCERNS` or `BLOCKED` until governance passes; findings; decision owner; next TASK-DEPLOY-004. |
+| Final response contract | `DONE`, `DONE_WITH_CONCERNS`, or `BLOCKED`; settings evidence; findings; decision owner; next TASK-DEPLOY-004. |
 
 ### TASK-DEPLOY-004 — Human-authorized merge and post-check
 
@@ -395,7 +396,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 |---|---|
 | Objective | Merge only after GO and prove intended main state without unintended side effects. |
 | Why | Merge and triggered workflows are externally consequential and can invalidate candidate evidence. |
-| Context | No merge is authorized by this runbook or by the one-time candidate-branch push authorization; Repository Maintainer must grant explicit current-turn GO. |
+| Context | Repository Maintainer MIKKOH granted explicit current-turn GO for the bounded readiness PR, merge, and post-check on 2026-09-06. |
 | Read first | Final evidence registry, review, branch controls, workflow disposition, rollback decision. |
 | Requirements | REQ-011, REQ-014. |
 | In scope | Prepared merge plan; actual merge/push only with explicit authorization; read-only post-check. |
