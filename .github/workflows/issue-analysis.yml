@@ -63,6 +63,7 @@ concurrency:
 
 jobs:
   authorize:
+    if: github.repository == 'earendil-works/pi'
     runs-on: ubuntu-latest
     outputs:
       should_run: ${{ steps.verify.outputs.should_run }}
@@ -253,7 +254,7 @@ jobs:
 
   analyze:
     needs: authorize
-    if: needs.authorize.outputs.should_run == 'true'
+    if: ${{ github.repository == 'earendil-works/pi' && needs.authorize.outputs.should_run == 'true' }}
     runs-on: ${{ fromJSON(needs.authorize.outputs.runs_on) }}
     environment: pi-analyze
     timeout-minutes: 45
