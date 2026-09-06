@@ -28,17 +28,18 @@ package/GitHub Release/model-catalog publication, R2 writes, and deployment rema
 | Rollback ref | `frictionless-readiness-baseline-20260904` resolves to the baseline | Local Git |
 | Frozen stable target | `v0.85.1` at `d981de1229ef899957bbe968bc8dcda02a21f477` | Git + GitHub release |
 | Target release state | Published 2026-09-05T12:29:01Z; non-draft; non-prerelease | GitHub API |
-| Candidate-source revision | `380320568a18a773d7847fbaf6837cb97502db55`; remote update pending this evidence revision | Local Git |
-| Current worktree HEAD | `380320568a18a773d7847fbaf6837cb97502db55` before this evidence-only revision | Local Git |
+| Candidate-source revision | `380320568a18a773d7847fbaf6837cb97502db55` | Local Git + fork GitHub API |
+| Current evidence head | `3064da9fbfd4d14d68cbf2ed533f964e4b9df599` before this evidence refresh | Local Git + fork GitHub API |
+| Fork `main` | Exact target `d981de1229ef899957bbe968bc8dcda02a21f477`; upstream commit identities preserved | Fork GitHub API |
 | Baseline-to-target lineage delta | 720 commits; 883 files; 111675 insertions; 27866 deletions | Local Git |
 | Required runtime | Node `>=22.19.0` | `package.json` |
 | Observed runtime | macOS 26.6.2 arm64; Git 2.50.1; Node v26.7.0; npm 11.19.0 | Local CLI |
 | Codex runtime | 0.145.0; `read-only`, `workspace-write`, `danger-full-access`; `untrusted`, `on-request`, `never` | Installed CLI help |
 | Repository-local Codex config | None | Worktree scan |
-| GitHub Actions state | Observed 2026-09-06T04:47:15Z: enabled; `allowed_actions=all`; `sha_pinning_required=true`; default token `read`; PR approval disabled; 10 workflows | Fork GitHub API |
-| GitHub governance | Observed 2026-09-06T04:47:15Z: protected `main`; strict required checks `build-check-test` and `audit`; admin enforcement; PR-only, linear-history, conversation-resolution, no-force-push, no-delete; zero platform approvals because MIKKOH is the sole collaborator | Fork GitHub API |
+| GitHub Actions state | Observed 2026-09-06T05:02Z: enabled; SHA pinning required; default token `read`; CI/audit active; eight upstream-only workflows `disabled_manually` | Fork GitHub API |
+| GitHub governance | Observed 2026-09-06T05:02Z: protected `main`; four strict CI/audit/CodeQL checks; admin enforcement restored; PR-only, linear-history, conversation-resolution, no-force-push, no-delete; zero platform approvals because MIKKOH is the sole collaborator | Fork GitHub API |
 | GitHub security | Observed 2026-09-06T04:47:15Z: vulnerability alerts, Dependabot security updates, secret scanning, and push protection enabled; paid-only non-provider and validity checks disabled; CodeQL default setup uses the extended suite on standard runners | Fork GitHub API |
-| Baseline CodeQL | Run `34012114853` succeeded on old `main` SHA `ac4ac9e...`; 491 inherited open alerts require candidate differential review and are not a security PASS | Fork GitHub API |
+| CodeQL adoption evidence | Extended run `34012647603` succeeded on evidence head `3064da9f...`; 532 inherited upstream-target alerts remain open, but only four occur in fork-changed paths and all four existed on the old baseline | Fork GitHub API |
 
 ## Source availability and authority
 

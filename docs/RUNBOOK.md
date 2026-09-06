@@ -333,7 +333,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 |---|---|
 | Objective | Run the KEEP CI workflow on the exact guarded candidate SHA. |
 | Why | Upstream/local evidence cannot prove fork CI; exact candidate execution is required. |
-| Context | Run `34005005641` passed on candidate source `99ad976ec33edce98860132d6b613a2adbc48f58`; every evidence-only revision must receive fresh exact-head checks. |
+| Context | Runs `34012635278` and `34012648732` passed on evidence head `3064da9fbfd4d14d68cbf2ed533f964e4b9df599`, which contains candidate source `380320568a18a773d7847fbaf6837cb97502db55`. |
 | Read first | `ci.yml`, candidate diff, GUIDE validation, GitHub Actions state. |
 | Requirements | REQ-005. |
 | In scope | Human-authorized push of the immutable candidate to `codex/pi-fork-production-readiness`; observe the resulting run/jobs. |
@@ -354,7 +354,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 |---|---|
 | Objective | Prove dependency integrity and zero live credentials introduced by the candidate. |
 | Why | Dependency, signature, and secret evidence must be candidate-keyed even when server controls are enabled. |
-| Context | Run `34005225780` passed on candidate source `99ad976e...`; secret scanning and push protection are enabled; repository Actions secrets/environments are zero, which does not prove org secrets absent. |
+| Context | Run `34012634857` passed audit/signature checks on evidence head `3064da9f...`; nested candidate audits also pass. Secret scanning and push protection are enabled; two inherited deleted-path alerts remain open with unknown validity. |
 | Read first | `npm-audit.yml`, dependency policy, candidate diff/history scope, approved scanner docs. |
 | Requirements | REQ-006, REQ-007. |
 | In scope | Candidate-keyed audit/signature run and approved redacted secret scan. |
@@ -375,7 +375,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 |---|---|
 | Objective | Verify GitHub merge controls and review the candidate as another engineer's work. |
 | Why | Merge controls and independent review must be proven before integration. |
-| Context | `main` protection now enforces strict CI/audit checks, PRs, admin enforcement, linear history, conversation resolution, and force-push/deletion denial. MIKKOH is the sole collaborator, so a nonzero platform approval count would deadlock this public fork; explicit human GO plus independent agent review is the approved control. |
+| Context | `main` protection now enforces strict CI/audit/two-CodeQL checks, PRs, admin enforcement, linear history, conversation resolution, and force-push/deletion denial. MIKKOH is the sole collaborator, so a nonzero platform approval count would deadlock this public fork; explicit human GO plus independent agent review is the approved control. |
 | Read first | Branch/ruleset API evidence, full candidate diff, all TEST evidence, fork policy. |
 | Requirements | REQ-010, REQ-012, REQ-014. |
 | In scope | Settings verification, independent 15-dimension review, and bounded protection changes needed for required candidate checks. |
@@ -399,7 +399,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Context | Repository Maintainer MIKKOH granted explicit current-turn GO for the bounded readiness PR, merge, and post-check on 2026-09-06. |
 | Read first | Final evidence registry, review, branch controls, workflow disposition, rollback decision. |
 | Requirements | REQ-011, REQ-014. |
-| In scope | Prepared merge plan; actual merge/push only with explicit authorization; read-only post-check. |
+| In scope | Exact-target lineage-preserving fast-forward, reviewed fork-delta PR integration, and read-only post-check under explicit authorization. |
 | Out of scope | Release tag, npm/GitHub Release/model-catalog/R2 publication, credential/settings changes. |
 | Allowed surface | Authorized PR/branch merge only; evidence artifact update. |
 | Protected surface | Upstream, release refs, packages, catalogs, credentials, infrastructure. |

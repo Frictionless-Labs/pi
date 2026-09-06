@@ -87,16 +87,19 @@ before credential revocation, rotation, or host recovery.
 ## Workflow policy
 
 Only `.github/workflows/ci.yml` and `.github/workflows/npm-audit.yml` have fork readiness value and
-are KEEP. The other eight current workflows are DISABLE through TASK-GUIDE-003 repository-identity guards.
-The complete per-file contract is in `WORKFLOW_DISPOSITION.md`.
+are KEEP. The other eight workflows are DISABLE both through TASK-GUIDE-003 repository-identity
+guards and GitHub's `disabled_manually` server state. The complete per-file contract is in
+`WORKFLOW_DISPOSITION.md`.
 
 Repository workflow content, GitHub server active state, Actions policy, environments, and secrets
 are distinct state planes. The 2026-09-06T04:47:15Z snapshot showed Actions enabled, full-SHA
 pinning required, a read-only default workflow token, the readiness branch present, and candidate
 CI/audit runs successful. Vulnerability alerts, Dependabot security updates, secret scanning, push
 protection, and CodeQL default setup are enabled. Paid-only non-provider-pattern and validity checks
-remain disabled to preserve a free-only control plane. Repository counts do not prove organization
-or other hidden credentials are absent; upstream-specific jobs remain guarded.
+remain disabled to preserve a free-only control plane. A first-PR `pull_request_target` job used the
+old base workflow before its in-repo guard could apply; it completed without comments, reviews, or
+closure, after which all eight unsafe workflows were disabled server-side. Repository counts do not
+prove organization or other hidden credentials are absent.
 
 ## Merge governance
 
@@ -107,14 +110,17 @@ or other hidden credentials are absent; upstream-specific jobs remain guarded.
 | Checks | Candidate-SHA CI, vulnerability, signature, and secret gates PASS. |
 | Protection | Required checks/reviews/bypass/force-push policy observed and approved before merge. |
 | Approval | Explicit Repository Maintainer GO after evidence review. |
-| Merge | Authorized PR/branch path only; no direct autonomous push. |
+| Merge | Preserve upstream commit identities with a separately authorized exact-target fast-forward; integrate the fork delta through the reviewed PR. |
 | Post-check | `main` relationship and all triggered runs/effects observed; TEST-014 PASS. |
 
-The 2026-09-06T04:47:15Z fork snapshot proves `main` protection with strict `build-check-test` and
-`audit` checks, admin enforcement, PR-only integration, linear history, conversation resolution,
+The 2026-09-06T05:02Z fork snapshot proves `main` protection with strict CI, audit, and two CodeQL
+checks, admin enforcement, PR-only fork-delta integration, linear history, conversation resolution,
 and force-push/deletion denial. The platform approval count is zero because MIKKOH is the repository's
 only collaborator; a nonzero count would deadlock. Current-turn human GO plus independent agent
-review is the approved single-maintainer review control.
+review is the approved single-maintainer review control. To avoid rewriting 720 upstream commit
+identities through squash/rebase, the maintainer authorized one exact fast-forward from baseline to
+the frozen target while admin enforcement was briefly disabled; it was restored immediately with
+all other protection fields unchanged.
 
 ## Recovery
 

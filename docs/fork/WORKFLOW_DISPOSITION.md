@@ -17,17 +17,16 @@ owner: Frictionless Labs Repository Maintainer
 ## Decision rule
 
 `ci.yml` and `npm-audit.yml` are KEEP. Every other current workflow is DISABLE in
-`Frictionless-Labs/pi` through a TASK-GUIDE-003 repository-identity guard on every job. DISABLE preserves
-the upstream workflow source while making its jobs executable only when
-`github.repository == 'earendil-works/pi'`. Unknown credential ownership or missing services cannot
-be replaced with personal/Frictionless credentials under this readiness program.
+`Frictionless-Labs/pi` through a TASK-GUIDE-003 repository-identity guard on every job and a
+`disabled_manually` GitHub server state. DISABLE preserves the upstream workflow source while the
+guard makes its jobs executable only when `github.repository == 'earendil-works/pi'`. Unknown
+credential ownership or missing services cannot be replaced with personal/Frictionless credentials.
 
-The 2026-09-06T04:47:15Z fork snapshot reported all ten workflows present, Actions enabled,
-`sha_pinning_required=true`, a read-only default token, and the readiness branch present. Exact-SHA
-candidate CI run `34005005641` and audit run `34005225780` succeeded. Vulnerability alerts,
-Dependabot security updates, secret scanning, push protection, and CodeQL default setup are enabled.
-Workflow references below are source interfaces; repository counts do not prove organization or
-other hidden credentials absent.
+The 2026-09-06T05:02Z fork snapshot reported all ten repository workflows present, two KEEP
+workflows active, eight DISABLE workflows `disabled_manually`, SHA pinning required, and a read-only
+default token. Exact-head CI runs `34012635278`/`34012648732` and audit run `34012634857` succeeded.
+Secret scanning, push protection, Dependabot, and extended CodeQL are enabled. Workflow references
+below are source interfaces; repository counts do not prove hidden credentials absent.
 
 ## Complete inventory
 
