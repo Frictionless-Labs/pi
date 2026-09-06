@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { BACKGROUND_CONTEXT, type LaneWatchEvent } from "@earendil-works/pi-agent-core";
 import type { AssistantMessage } from "@earendil-works/pi-ai";
+import { createPromiseResolvers } from "@earendil-works/pi-client";
 import type { ClientCommand } from "../cli/experimental/commands/client.ts";
 import { activateBuiltinClientServices, openClientRuntime } from "./client-runtime.ts";
 import type { AgentOperationResponse } from "./services/agent-controller.ts";
@@ -81,10 +82,16 @@ export async function runClient(command: ClientCommand, options: RunClientOption
 
 		const agent = match.agent;
 		const completedText = new Map<string, string>();
+		const terminalRuns = new Set<string>();
+		let terminalWaiter: { runId: string; resolve: () => void } | undefined;
 		let deliveryTail = Promise.resolve();
 		const unsubscribe = match.transcript.state.subscribe((value, _context, delivery) => {
 			if (delivery.kind !== "update" || value.event === null) return;
 			const event = value.event;
+			if (event.type === "run_end" || event.type === "run_suspend") {
+				terminalRuns.add(event.runId);
+				if (terminalWaiter?.runId === event.runId) terminalWaiter.resolve();
+			}
 			deliveryTail = deliveryTail.then(async () => {
 				if (event.type === "message_end" && event.runId !== undefined && event.message.role === "assistant") {
 					completedText.set(event.runId, messageText(event.message));
@@ -99,6 +106,12 @@ export async function runClient(command: ClientCommand, options: RunClientOption
 		let response: AgentOperationResponse;
 		try {
 			response = await agent.prompt({ message: command.prompt, images: null }, BACKGROUND_CONTEXT);
+			if (response.accepted && !terminalRuns.has(response.operationId)) {
+				const terminal = createPromiseResolvers<void>();
+				terminalWaiter = { runId: response.operationId, resolve: terminal.resolve };
+				await terminal.promise;
+				terminalWaiter = undefined;
+			}
 		} finally {
 			unsubscribe();
 			await deliveryTail;

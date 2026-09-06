@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Added an ES2022-compatible promise resolver utility for client consumers.
+
 ## [0.85.1] - 2026-09-05
 
 ## [0.85.0] - 2026-09-04

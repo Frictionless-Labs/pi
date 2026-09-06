@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Fixed experimental remote prompts returning before terminal transcript events were delivered.
+
 ## [0.85.1] - 2026-09-05
 
 ### New Features
