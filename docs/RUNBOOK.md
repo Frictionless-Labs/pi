@@ -1,14 +1,14 @@
 ---
 title: Pi Fork Production Readiness Runbook
-version: 1.2.0
-status: IN_PROGRESS
+version: 1.3.0
+status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
 tags:
   - pi
   - asgd
   - runbook
-confidence: 0.98
+confidence: 0.99
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -431,6 +431,21 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Completion evidence | Final status/confidence, candidate/result SHA, trace/pass rates, blockers, human-gated actions, next dependency. |
 | Failure rule | Unknown or missing mandatory evidence lowers status; never inflate confidence. |
 | Final response contract | STATUS, RESULT, FILES, REPOSITORY STATE, WORKFLOWS, VALIDATION, TRACE, SECURITY, BLOCKERS, HUMAN GATES, NEXT DEPENDENCY. |
+
+## Final executed outcome
+
+| Field | Observed result |
+|---|---|
+| Decision | **READY at 99% confidence** for controlled internal fork use under `FORK_POLICY.md`. |
+| Source | Candidate source `380320568a18a773d7847fbaf6837cb97502db55`; no product-source change. |
+| Integration | PR#3 merged at exact head `1f346820c9c12c3392b4a5e397d73c879d000b3b` on 2026-09-06T05:09:08Z. |
+| Checks | PR and post-merge CI, npm audit/signatures, and both CodeQL analyses completed successfully. |
+| Workflow safety | Two KEEP workflows active; eight DISABLE workflows guarded and `disabled_manually`; no unauthorized job/effect observed. |
+| Security | Dependabot open count zero; 532 inherited CodeQL alerts and two deleted-path historical secret alerts remain disclosed and open. |
+| Governance | Strict four-check protection, admin enforcement, linear history, conversation resolution, and force/delete denial restored and verified. |
+| Free-only constraint | Standard public-repository controls and runners only; paid validity/non-provider secret scanning disabled. |
+| Excluded effects | No release/tag/package/model-catalog/R2/deployment/credential/issue/comment operation occurred. |
+| Stop condition | `CODEX_PI_FORK_PRODUCTION_READINESS_COMPLETE`. |
 
 ## Rollback and recovery protocol
 

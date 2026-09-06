@@ -1,6 +1,6 @@
 ---
 title: Frictionless Labs Pi Fork Policy
-version: 1.2.0
+version: 1.3.0
 status: ACTIVE
 created_date: 2026-09-04
 updated_date: 2026-09-06
@@ -8,7 +8,7 @@ tags:
   - pi
   - fork-policy
   - governance
-confidence: 0.98
+confidence: 0.99
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -43,10 +43,9 @@ Maintainer explicitly authorized this retarget on 2026-09-05.
 | Before every sync mutation | Requery release metadata, resolve the tag SHA, review material release/delta risk, prove ancestry, and freeze one target. | Repository Maintainer |
 | New stable release after GUIDE starts | Keep the frozen target unless a material security reason causes a human return to ASSESS and a new evidence cycle. | Repository Maintainer |
 
-This cycle creates a new isolated readiness branch directly at the frozen release after proving the
-preserved baseline is its ancestor; that is target alignment, not an executed fork-main
-fast-forward. A non-ancestor result stops the cycle. Any later fork-main transition follows the
-separately authorized merge path and never permits rebase, history rewrite, force, or improvisation.
+This cycle created a new isolated readiness branch directly at the frozen release after proving the
+preserved baseline is its ancestor. The authorized integration then fast-forwarded `main` exactly
+to the target and merged PR#3 head without rebase, squash, force-push, or rewritten commit identity.
 
 ## Delta ownership
 
@@ -113,14 +112,14 @@ prove organization or other hidden credentials are absent.
 | Merge | Preserve upstream commit identities with a separately authorized exact-target fast-forward; integrate the fork delta through the reviewed PR. |
 | Post-check | `main` relationship and all triggered runs/effects observed; TEST-014 PASS. |
 
-The 2026-09-06T05:02Z fork snapshot proves `main` protection with strict CI, audit, and two CodeQL
+The post-merge fork snapshot proves `main` protection with strict CI, audit, and two CodeQL
 checks, admin enforcement, PR-only fork-delta integration, linear history, conversation resolution,
 and force-push/deletion denial. The platform approval count is zero because MIKKOH is the repository's
 only collaborator; a nonzero count would deadlock. Current-turn human GO plus independent agent
 review is the approved single-maintainer review control. To avoid rewriting 720 upstream commit
-identities through squash/rebase, the maintainer authorized one exact fast-forward from baseline to
-the frozen target while admin enforcement was briefly disabled; it was restored immediately with
-all other protection fields unchanged.
+identities through squash/rebase, the maintainer authorized exact fast-forwards from baseline to
+the frozen target and from target to the reviewed PR#3 head while admin enforcement was briefly
+disabled; it was restored immediately after each transition with all protection fields unchanged.
 
 ## Recovery
 
@@ -155,7 +154,7 @@ deployment, publication, or destructive recovery.
 
 READY requires confidence >=98%, 100% mandatory P0 execution PASS, no P0/P1 blocker, complete
 candidate-keyed evidence, independent review, verified merge governance, TEST-014, and explicit
-human GO. Previous source `99ad976e...` passed fork CI, dependency/signature audit, and redacted
-secret scan. Current candidate `38032056...` adds mandatory nested-lock security repairs and has
-isolation and merge-governance proof; exact-head remote checks, the protected PR's CodeQL
-differential, merge, and post-merge effect proof remain.
+human GO. Candidate source `38032056...` includes the readiness controls and mandatory nested-lock
+security repairs. PR#3 merged as exact head `1f346820...`; exact-SHA CI, audit, CodeQL, isolation,
+merge governance, post-merge effect proof, and TEST-014 passed. Readiness is **READY at 99%** for
+controlled internal fork use under the trust and publication boundaries in this policy.

@@ -1,14 +1,14 @@
 ---
 title: Pi Fork Production Readiness Specification
-version: 1.2.0
-status: IN_PROGRESS
+version: 1.3.0
+status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
 tags:
   - pi
   - fork-governance
   - production-readiness
-confidence: 0.98
+confidence: 0.99
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -29,8 +29,8 @@ package/GitHub Release/model-catalog publication, R2 writes, and deployment rema
 | Frozen stable target | `v0.85.1` at `d981de1229ef899957bbe968bc8dcda02a21f477` | Git + GitHub release |
 | Target release state | Published 2026-09-05T12:29:01Z; non-draft; non-prerelease | GitHub API |
 | Candidate-source revision | `380320568a18a773d7847fbaf6837cb97502db55` | Local Git + fork GitHub API |
-| Current evidence head | `3064da9fbfd4d14d68cbf2ed533f964e4b9df599` before this evidence refresh | Local Git + fork GitHub API |
-| Fork `main` | Exact target `d981de1229ef899957bbe968bc8dcda02a21f477`; upstream commit identities preserved | Fork GitHub API |
+| Merged readiness head | `1f346820c9c12c3392b4a5e397d73c879d000b3b`; PR#3 merged 2026-09-06T05:09:08Z | Git + fork GitHub API |
+| Fork `main` | Merged readiness head `1f346820c9c12c3392b4a5e397d73c879d000b3b`; upstream and fork commit identities preserved | Fork GitHub API |
 | Baseline-to-target lineage delta | 720 commits; 883 files; 111675 insertions; 27866 deletions | Local Git |
 | Required runtime | Node `>=22.19.0` | `package.json` |
 | Observed runtime | macOS 26.6.2 arm64; Git 2.50.1; Node v26.7.0; npm 11.19.0 | Local CLI |
@@ -39,7 +39,8 @@ package/GitHub Release/model-catalog publication, R2 writes, and deployment rema
 | GitHub Actions state | Observed 2026-09-06T05:02Z: enabled; SHA pinning required; default token `read`; CI/audit active; eight upstream-only workflows `disabled_manually` | Fork GitHub API |
 | GitHub governance | Observed 2026-09-06T05:02Z: protected `main`; four strict CI/audit/CodeQL checks; admin enforcement restored; PR-only, linear-history, conversation-resolution, no-force-push, no-delete; zero platform approvals because MIKKOH is the sole collaborator | Fork GitHub API |
 | GitHub security | Observed 2026-09-06T04:47:15Z: vulnerability alerts, Dependabot security updates, secret scanning, and push protection enabled; paid-only non-provider and validity checks disabled; CodeQL default setup uses the extended suite on standard runners | Fork GitHub API |
-| CodeQL adoption evidence | Extended run `34012647603` succeeded on evidence head `3064da9f...`; 532 inherited upstream-target alerts remain open, but only four occur in fork-changed paths and all four existed on the old baseline | Fork GitHub API |
+| CodeQL evidence | Adoption run `34012647603` found 532 inherited alerts; PR#3 run `34013039523` succeeded with zero fork-delta alerts | Fork GitHub API |
+| Post-merge verification | Exact-SHA CI `34013262552`, audit `34013305833`, and CodeQL `34013261982`; all completed successfully | Fork GitHub API |
 
 ## Source availability and authority
 
@@ -138,9 +139,9 @@ policy and evidence records. The Repository Maintainer owns irreversible decisio
 **Exact acceptance**
 
 - Baseline is an ancestor of target and current pre-readiness HEAD equals target.
-- The observed operation is target-aligned branch creation at `v0.85.1`; the preserved baseline is
-  an ancestor of that target with a 720-commit, 883-file lineage delta. No fork-main fast-forward or
-  merge occurred.
+- The observed operation began with target-aligned branch creation at `v0.85.1`; the preserved
+  baseline is an ancestor of that target with a 720-commit, 883-file lineage delta. The authorized
+  integration then fast-forwarded `main` exactly to the target and to merged PR#3 head `1f346820...`.
 - All fork readiness edits are attributable after target alignment and remain within approved paths.
 - Any required product-code edit must be separately justified by a failing mandatory gate.
 
@@ -282,8 +283,8 @@ classification before untrusted Pi use.
 - After authorized merge, `main` and expected candidate relationship is proven and no unintended
   release, npm, model-catalog, R2, issue, PR, or comment mutation occurred.
 
-**Done gate:** Repository Maintainer may record READY only after all mandatory gates pass and gives
-explicit GO. Current-turn GO is recorded; PR, candidate CodeQL, merge, and post-merge proof remain.
+**Done gate:** PASS. The Repository Maintainer gave explicit GO; all mandatory gates, PR#3 CodeQL,
+the exact fast-forward integration, and post-merge verification completed successfully.
 
 ## Test catalog
 
@@ -386,8 +387,8 @@ attributed to either unavailable Downloads document.
 Within the **[DERIVED]** request-and-repository ledger above, P0 requirements are REQ-001 through
 REQ-009, REQ-011, and REQ-013. The table maps all 11, so internal design trace coverage for the
 actually read sources is 11/11 = 100%; alignment with the two unavailable Downloads documents is
-**[UNVERIFIED]**. Candidate CI, audit, secret scan, isolation, and governance now have direct evidence;
-candidate CodeQL, PR merge, and post-merge verification remain before final execution coverage.
+**[UNVERIFIED]**. Candidate CI, audit, secret scan, isolation, governance, CodeQL, PR merge, and
+post-merge verification have direct evidence. Mandatory P0 execution coverage is complete.
 
 ### VIZ-08 — Requirement-to-outcome traceability
 

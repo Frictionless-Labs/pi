@@ -1,14 +1,14 @@
 ---
 title: Pi Fork Readiness Evidence Registry
-version: 1.2.0
-status: IN_PROGRESS
+version: 1.3.0
+status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
 tags:
   - pi
   - readiness-evidence
   - audit
-confidence: 0.98
+confidence: 0.99
 owner: Frictionless Labs Repository Maintainer
 ---
 
@@ -83,16 +83,16 @@ documents and is intentionally distinct from the candidate source.
 | EVD-20260906-002 | `380320568a18a773d7847fbaf6837cb97502db55` | upstream release `v0.85.1` = `d981de1...` | REQ-002 | TEST-002 | TASK-ASSESS-001 | CTRL-001 | GitHub API + local Git | Release metadata and tag resolution | **PASS** | EXECUTION_OBSERVATION | `SOURCE-002` | 2026-09-06T00:08:10Z | Stable, published, non-draft, non-prerelease target remains frozen. |
 | EVD-20260906-003 | `380320568a18a773d7847fbaf6837cb97502db55` | fork `main=d981de1...`; exact frozen target | REQ-003 | TEST-003 | TASK-GUIDE-002 | CTRL-007 | Local Git + fork API | Ancestry, exact-target fast-forward, ref verification | **PASS** | EXECUTION_OBSERVATION | `ALIGN-002`, `MAIN-ALIGN-002` | 2026-09-06T05:02:00Z | 720 upstream commits retained exact identities; admin enforcement was toggled only for the authorized fast-forward and restored. |
 | EVD-20260906-004 | `380320568a18a773d7847fbaf6837cb97502db55` | ten workflows; 2 KEEP/8 DISABLE; 16 guarded jobs | REQ-004 | TEST-004 | TASK-ASSESS-002, TASK-GUIDE-003 | CTRL-002, CTRL-006 | Local Ruby/Git | YAML parse, inventory, job guards, action pins | **PASS** | EXECUTION_OBSERVATION | `STATIC-002` | 2026-09-06T01:43:00Z | 39/39 action uses are full-SHA pinned; candidate repair does not touch workflows. |
-| EVD-20260906-005 | `380320568a18a773d7847fbaf6837cb97502db55` | evidence head `3064da9f...` | REQ-005 | TEST-005 | TASK-DEPLOY-001 | CTRL-008 | GitHub Actions | Build, check, test on exact head | **PASS** | EXECUTION_OBSERVATION | Runs `34012635278`, `34012648732` | 2026-09-06T04:58:32Z | Push and PR CI both succeeded on the exact evidence head containing the candidate source. |
-| EVD-20260906-006 | `380320568a18a773d7847fbaf6837cb97502db55` | evidence head plus nested lockfiles | REQ-006 | TEST-006 | TASK-DEPLOY-002 | CTRL-009 | npm 11.19.0 + GitHub Actions | Production audit and signature verification | **PASS** | EXECUTION_OBSERVATION | Run `34012634857`; `SUPPLY-002` | 2026-09-06T04:53:34Z | Exact-head root audit/signatures passed; both nested audits report zero vulnerabilities after the two lock repairs. |
-| EVD-20260906-007 | `380320568a18a773d7847fbaf6837cb97502db55` | candidate history/content/delta | REQ-007 | TEST-007 | TASK-DEPLOY-002 | CTRL-004 | Gitleaks 8.30.1 | Redacted immutable-candidate scans | **PASS** | EXECUTION_OBSERVATION | `SCAN-002` | 2026-09-06T04:52:00Z | 2-commit delta, 686-commit adopted lineage, and 17.77 MB worktree content each reported zero leaks. Two open inherited server alerts remain visible under `SECURITY-002`. |
+| EVD-20260906-005 | `380320568a18a773d7847fbaf6837cb97502db55` | merged head `1f346820c9c12c3392b4a5e397d73c879d000b3b` | REQ-005 | TEST-005 | TASK-DEPLOY-001 | CTRL-008 | GitHub Actions | Build, check, test on exact head | **PASS** | EXECUTION_OBSERVATION | Runs `34013041637`, `34013262552` | 2026-09-06T05:12:45Z | PR and post-merge CI both succeeded on the exact merged head containing the candidate source. |
+| EVD-20260906-006 | `380320568a18a773d7847fbaf6837cb97502db55` | merged head plus nested lockfiles | REQ-006 | TEST-006 | TASK-DEPLOY-002 | CTRL-009 | npm 11.19.0 + GitHub Actions | Production audit and signature verification | **PASS** | EXECUTION_OBSERVATION | Run `34013305833`; `SUPPLY-002` | 2026-09-06T05:10:34Z | Post-merge root audit/signatures passed; nested audits and default-branch Dependabot each report zero open vulnerabilities. |
+| EVD-20260906-007 | `380320568a18a773d7847fbaf6837cb97502db55` | candidate history/content/final evidence worktree | REQ-007 | TEST-007 | TASK-DEPLOY-002 | CTRL-004 | Gitleaks 8.30.1 | Redacted immutable-candidate and fresh final-content scans | **PASS** | EXECUTION_OBSERVATION | `SCAN-002`, `SCAN-003` | 2026-09-06T05:17:00Z | Delta, adopted lineage, candidate content, and fresh 17.78 MB final evidence content reported zero leaks. Two inherited server alerts remain visible under `SECURITY-002`. |
 | EVD-20260906-008 | `380320568a18a773d7847fbaf6837cb97502db55` | disposable Docker container | REQ-008 | TEST-008 | TASK-STRATEGIZE-002 | CTRL-005 | Docker Desktop 4.89.0 / Engine 29.7.2 | Inspect boundary, execute probe, verify disposal | **PASS** | EXECUTION_OBSERVATION | `ISOLATION-002` | 2026-09-06T04:47:53Z | No binds/routes/ambient credential keys/host sockets; read-only root; no-exec tmpfs; all caps dropped; no-new-privileges; UID 65534; exit 0; removed. |
-| EVD-20260906-009 | `380320568a18a773d7847fbaf6837cb97502db55` | v1.2.0 governance documents | REQ-009 | TEST-009 | TASK-STRATEGIZE-001, TASK-GUIDE-004 | CTRL-007 | Local validators | Frontmatter, identifiers, agreement, diff check | **PASS** | EXECUTION_OBSERVATION | `STATIC-002` | 2026-09-06T04:51:00Z | Five frontmatters, 14 REQs, 14 TESTs, seven modules, 15 tasks, and 14 active records validated; diff check passed. |
-| EVD-20260906-010 | `380320568a18a773d7847fbaf6837cb97502db55` | protected fork `main` and free security controls | REQ-010 | TEST-010 | TASK-DEPLOY-003 | CTRL-011 | Fork GitHub API | Read protection, Actions, repo security, collaborators | **PASS** | EXECUTION_OBSERVATION | `SERVER-002` | 2026-09-06T05:02:00Z | Strict CI/audit/two-CodeQL checks, admin enforcement restored, PR-only fork delta, linear history, conversation resolution, no force/delete; MIKKOH is sole collaborator. |
-| EVD-20260906-011 | `380320568a18a773d7847fbaf6837cb97502db55` | 2 KEEP active; 8 DISABLE server-disabled and guarded | REQ-011 | TEST-011 | TASK-GUIDE-003, TASK-DEPLOY-004 | CTRL-002 | GitHub Actions/API | Workflow state, runs, comments/reviews/effects | **PASS** | EXECUTION_OBSERVATION | `WORKFLOW-SERVER-002` | 2026-09-06T05:02:00Z | First PR Gate used the old base workflow and passed without mutation; remediation disables all eight unsafe workflows server-side. Publish jobs skipped; PR comments/reviews remain zero. Reverify post-merge. |
-| EVD-20260906-012 | `380320568a18a773d7847fbaf6837cb97502db55` | target plus bounded readiness/security delta | REQ-012, REQ-013 | TEST-012 | TASK-GUIDE-005 | CTRL-007, CTRL-010 | Local Git + independent prior final review | Allowlist, full diff, whitespace, counterexample review | **PASS** | EXECUTION_OBSERVATION | `SCOPE-002` | 2026-09-06T04:53:00Z | 17 paths: nine guarded/CI workflows, six governance documents, and two mandatory nested-lock repairs; no product source, manifest, generated-file, release, credential, or publication change. Prior SPEC attribution and obsolete RUNBOOK type findings are corrected. |
-| EVD-20260906-013 | `380320568a18a773d7847fbaf6837cb97502db55` | 14 active evidence records | REQ-014 | TEST-013 | TASK-GUIDE-005 | CTRL-010 | Local validator | Record cardinality, IDs, state reconciliation | **PASS** | EXECUTION_OBSERVATION | This registry | 2026-09-06T04:53:00Z | 14 unique active IDs validated; final evidence revision must reconcile remote and post-merge states. |
-| EVD-20260906-014 | `380320568a18a773d7847fbaf6837cb97502db55` | current-turn MIKKOH GO; merge not yet executed | REQ-011, REQ-014 | TEST-014 | TASK-DEPLOY-004, TASK-VERIFY-001 | CTRL-002, CTRL-010 | Repository Maintainer + protected GitHub path | PR, required checks, merge, effect audit | **PENDING** | HUMAN_DECISION | Current user authorization | 2026-09-06 | PR, candidate CodeQL, merge, and post-merge proof remain. |
+| EVD-20260906-009 | `380320568a18a773d7847fbaf6837cb97502db55` | v1.3.0 governance documents | REQ-009 | TEST-009 | TASK-STRATEGIZE-001, TASK-GUIDE-004 | CTRL-007 | Local validators | Frontmatter, identifiers, agreement, diff check | **PASS** | EXECUTION_OBSERVATION | `STATIC-003` | 2026-09-06T05:16:10Z | Five frontmatters, 14 REQs, 14 TESTs, seven modules, 15 tasks, and 14 active records validated; diff check passed. |
+| EVD-20260906-010 | `380320568a18a773d7847fbaf6837cb97502db55` | protected fork `main@1f346820...` and free security controls | REQ-010 | TEST-010 | TASK-DEPLOY-003 | CTRL-011 | Fork GitHub API | Read protection, Actions, repo security, collaborators | **PASS** | EXECUTION_OBSERVATION | `SERVER-003` | 2026-09-06T05:16:10Z | Four strict checks, admin enforcement, linear history, conversation resolution, no force/delete; MIKKOH is sole collaborator and the approval count is zero to avoid deadlock. |
+| EVD-20260906-011 | `380320568a18a773d7847fbaf6837cb97502db55` | 2 KEEP active; 8 DISABLE server-disabled and guarded | REQ-011 | TEST-011 | TASK-GUIDE-003, TASK-DEPLOY-004 | CTRL-002 | GitHub Actions/API | Workflow state, runs, comments/reviews/effects | **PASS** | EXECUTION_OBSERVATION | `WORKFLOW-SERVER-003` | 2026-09-06T05:16:10Z | Post-merge run inventory contains only CI, audit, and CodeQL verification; no disabled job, release, publication, issue, comment, or credential effect occurred. |
+| EVD-20260906-012 | `380320568a18a773d7847fbaf6837cb97502db55` | target plus bounded readiness/security/evidence delta | REQ-012, REQ-013 | TEST-012 | TASK-GUIDE-005 | CTRL-007, CTRL-010 | Local Git + prior independent and fresh scoped review | Allowlist, full diff, whitespace, counterexample review | **PASS** | EXECUTION_OBSERVATION | `SCOPE-002`, `SCOPE-003` | 2026-09-06T05:17:00Z | Seventeen implementation paths plus five final evidence documents are bounded; no product, release, credential, or publication change. SPEC attribution and obsolete RUNBOOK type findings remain corrected after fresh scan/review. |
+| EVD-20260906-013 | `380320568a18a773d7847fbaf6837cb97502db55` | 14 active evidence records in v1.3.0 | REQ-014 | TEST-013 | TASK-GUIDE-005 | CTRL-010 | Local validator | Record cardinality, IDs, state reconciliation | **PASS** | EXECUTION_OBSERVATION | This registry | 2026-09-06T05:16:10Z | Fourteen unique active IDs reconcile candidate, merge, post-merge, workflow, and security states. |
+| EVD-20260906-014 | `380320568a18a773d7847fbaf6837cb97502db55` | PR#3 merged as exact head `1f346820...` | REQ-011, REQ-014 | TEST-014 | TASK-DEPLOY-004, TASK-VERIFY-001 | CTRL-002, CTRL-010 | Repository Maintainer + protected GitHub path | PR, required checks, merge, effect audit | **PASS** | HUMAN_DECISION | PR#3; `POSTMERGE-003` | 2026-09-06T05:16:10Z | MIKKOH GO recorded; PR#3, four candidate checks, exact fast-forward integration, post-merge checks, and effect audit passed. |
 
 ## Active command/result ledger
 
@@ -102,41 +102,45 @@ documents and is intentionally distinct from the candidate source.
 | `ALIGN-002` | `git merge-base --is-ancestor`; `git rev-list`; `git diff --shortstat` | Exit 0; 720 commits; 883 files; target-aligned branch. |
 | `SUPPLY-002` | Nested `npm audit --package-lock-only --omit=dev --audit-level=moderate --workspaces=false` | Both exit 0; zero vulnerabilities after two transitive lock updates. |
 | `STATIC-002` | Ruby YAML/frontmatter/identifier/record validators; `git diff --check`; Actionlint with shellcheck disabled | Exit 0; workflows parse; 16 guards and 39 pins; schemas/counts pass. Upstream ShellCheck warnings remain separate non-regression observations. |
+| `STATIC-003` | Final v1.3.0 frontmatter, identifier, active-record, workflow, annotation-repair, and diff validators | Exit 0; final evidence documents agree and contain no active PENDING gate. |
 | `SCOPE-002` | Candidate name/status/diff review, whitespace check, prior final-review repair verification | Exit 0; 17 bounded paths; `SPEC.md` makes no claim from unread strategy; RUNBOOK consistently uses `TargetAlignment`. |
+| `SCOPE-003` | Final five-document diff review, v1.3.0 structural validator, whitespace check, and Actionlint 1.7.12 | Exit 0; 14 active rows all PASS; annotation repairs intact; workflow guards and pins unchanged. |
 | `SCAN-002` | Official Gitleaks 8.30.1 container, network disabled, worktree/Git metadata read-only, redaction enabled | Exit 0; current content plus nonzero 2-commit delta and 686-commit lineage scans report zero leaks. Invalid 0-commit attempts were rejected and rerun. |
+| `SCAN-003` | Official Gitleaks 8.30.1 container; network disabled; source read-only; redaction enabled; final v1.3.0 worktree content | Exit 0; 17.78 MB scanned; no leaks found. |
 | `ISOLATION-002` | Hardened cached `alpine:3.22` container; config inspection, runtime assertions, exit/disposal check | Exit 0; boundary properties in EVD-20260906-008 proven; no container remains. |
 | `SERVER-002` | GitHub repository, Actions-permission, protection, security/default-setup, collaborator APIs | Free controls enabled as recorded; paid-only validity and non-provider scanning disabled. |
 | `SECURITY-002` | Secret metadata with `hide_secret=true`; location/history without reading values | Two alerts predate baseline; source path was deleted 2026-04-30 and is absent at baseline/target. Validity remains `unknown`; alerts remain open and visible. |
 | `MAIN-ALIGN-002` | Temporarily remove admin enforcement; exact non-force push of `d981de1...` to `main`; restore enforcement; reread protection | Push exit 0; `main` equals target; all four checks and protection fields retained; admin enforcement restored. |
 | `WORKFLOW-SERVER-002` | Disable eight unsafe workflow IDs; reread inventory and PR effects | Exactly CI/audit active and eight repository workflows `disabled_manually`; PR comments/reviews zero. |
 | `CODEQL-ADOPTION-002` | Extended CodeQL run `34012647603`; paginated PR-head alerts and changed-path intersection | Both jobs succeeded. 532 target-inherited alerts remain: 444 test, 76 runtime, 4 workflow, 6 scripts, 2 examples. Four alerts intersect fork-changed paths; all four predate the fork delta. |
+| `PR-CODEQL-003` | PR#3 default-setup CodeQL run `34013039523`; PR alert API | Both analysis jobs succeeded on `1f346820...`; zero fork-delta alerts. |
+| `POSTMERGE-003` | PR#3 merge API; exact-SHA CI `34013262552`, audit `34013305833`, and CodeQL `34013261982`; ref/effect checks | PR#3 merged at exact head `1f346820...`; all post-merge verification succeeded; `main` and readiness ref match. |
+| `SERVER-003` | Post-merge protection, Actions, security, collaborator, and workflow APIs | Four strict checks and admin enforcement restored; free-only controls enabled; 2 KEEP active and 8 DISABLE workflows disabled. |
+| `WORKFLOW-SERVER-003` | Post-merge workflow/run, release/tag, issue/comment, and PR-effect inventory | Only verification paths ran; no release, tag, package, model-catalog, R2, deployment, credential, issue, or comment effect observed. |
 
 ## Active security disposition
 
 | Finding | Class | Decision |
 |---|---|---|
-| Nine Dependabot alerts in nested example lockfiles, including critical `shell-quote` and high `undici` advisories | `FIX_NOW` | Patched in candidate `38032056...`; both nested production audits now report zero; server closure awaits merge/default-branch rescan. |
+| Nine Dependabot alerts in nested example lockfiles, including critical `shell-quote` and high `undici` advisories | `RESOLVED` | Patched in candidate `38032056...`; nested audits and default-branch Dependabot report zero open alerts; duplicate Dependabot PR#1 and PR#2 closed automatically. |
 | Two Google OAuth-pattern alerts from commit `c359023c...` in a path deleted by `fe66edd9...` before the fork baseline | `PRE-EXISTING` | Keep open and visible. Do not claim revocation/validity. They are absent from baseline, target, and candidate content and were not introduced or re-exposed by this delta. |
-| 532 CodeQL alerts inherited from the frozen upstream target | `PRE-EXISTING` | Keep extended suite and alerts open. Controlled internal use requires the documented trust boundary; arbitrary untrusted execution remains isolation-only. The refreshed 17-path PR must produce zero new fork-delta alerts. |
+| 532 CodeQL alerts inherited from the frozen upstream target | `PRE-EXISTING` | Keep extended suite and alerts open. Controlled internal use requires the documented trust boundary; arbitrary untrusted execution remains isolation-only. PR#3 produced zero new fork-delta alerts. |
 
 ## Active readiness calculation
 
 | Measure | Current result | Basis |
 |---|---|---|
 | P0 design trace coverage | **100% (11/11)** | Verified kickoff request and repository source set; Downloads strategy/execution files remain absent and **[UNVERIFIED]**. |
-| Candidate implementation | **PASS** | Security lock repairs are committed; current governance record is the separate pending evidence revision. |
-| Fork CI/security | **PASS with inherited backlog disclosed** | Exact-head CI/audit/Gitleaks passed; adoption CodeQL completed and fork-changed alerts are pre-existing. A refreshed 17-path CodeQL differential remains before merge. |
+| Candidate implementation | **PASS** | Readiness controls and security lock repairs are merged; this governance record is the separate final evidence revision. |
+| Fork CI/security | **PASS with inherited backlog disclosed** | Exact-head CI/audit/Gitleaks and PR/post-merge CodeQL passed; all fork-changed CodeQL alerts are pre-existing. |
 | Isolation | **PASS** | Hardened disposable boundary and disposal directly observed. |
 | Merge governance | **PASS** | Free-tier protected-main controls and current human GO directly observed. |
-| Current readiness | **IN_PROGRESS; confidence 98%** | Refreshed fork-delta CodeQL, protected PR integration, and post-merge evidence remain. |
+| Current readiness | **READY; confidence 99%** | Mandatory P0 execution is 100% PASS, TEST-014 passed, MIKKOH GO is recorded, and no P0/P1 blocker remains. |
 
 ## Active next dependency
 
-Commit and push this evidence refresh to recalculate PR#3 against target-aligned `main`, require a
-zero-new-alert 17-path CodeQL differential, integrate only with all four checks, then write and merge
-the final post-merge evidence revision. No release,
-package/GitHub Release/model-catalog publication, R2 write, credential operation, or deployment is
-authorized.
+None for this readiness cycle. Future upstream synchronization, release, publication, deployment,
+credential, or paid-feature adoption requires a new evidence cycle and separate authorization.
 
 ## Pre-candidate observations (superseded)
 
