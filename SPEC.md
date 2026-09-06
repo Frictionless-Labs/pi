@@ -1,6 +1,6 @@
 ---
 title: Pi Fork Production Readiness Specification
-version: 1.3.0
+version: 1.3.1
 status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
@@ -281,7 +281,8 @@ classification before untrusted Pi use.
 - Every TEST-001 through TEST-014 has a current candidate-keyed record; PENDING/BLOCKED is explicit.
 - Branch/ruleset/required-check evidence is verified or blocks human GO; absence is not inferred safe.
 - After authorized merge, `main` and expected candidate relationship is proven and no unintended
-  release, npm, model-catalog, R2, issue, PR, or comment mutation occurred.
+  release, npm, model-catalog, R2, issue, PR, or comment mutation occurred. Dependabot's expected
+  auto-closure of redundant PR#1/PR#2 and its two closure comments are explicitly attributed.
 
 **Done gate:** PASS. The Repository Maintainer gave explicit GO; all mandatory gates, PR#3 CodeQL,
 the exact fast-forward integration, and post-merge verification completed successfully.

@@ -1,6 +1,6 @@
 ---
 title: Frictionless Labs Pi Fork Policy
-version: 1.3.0
+version: 1.3.1
 status: ACTIVE
 created_date: 2026-09-04
 updated_date: 2026-09-06

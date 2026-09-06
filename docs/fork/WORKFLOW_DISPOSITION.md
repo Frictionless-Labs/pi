@@ -1,6 +1,6 @@
 ---
 title: Pi Fork Workflow Disposition
-version: 1.3.0
+version: 1.3.1
 status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06

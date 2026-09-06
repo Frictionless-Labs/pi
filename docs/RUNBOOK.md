@@ -1,6 +1,6 @@
 ---
 title: Pi Fork Production Readiness Runbook
-version: 1.3.0
+version: 1.3.1
 status: READY
 created_date: 2026-09-04
 updated_date: 2026-09-06
@@ -406,7 +406,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Implementation requirements | Reconfirm candidate SHA/gates immediately before merge; record human GO; observe every resulting workflow/effect. |
 | Stable interfaces | `ReadinessDecision`, TEST-013/014. |
 | Edge cases | Merge commit changes SHA, new push arrives, checks stale, DISABLE workflow unexpectedly starts. |
-| Exact validation | Verify merged `main` relationship; required checks; run list by resulting SHA; absence of release/npm/catalog/R2/issue/PR/comment effects. |
+| Exact validation | Verify merged `main`, checks, runs, and attribution of every release/npm/catalog/R2/issue/PR/comment effect; block on any unintended effect. |
 | Completion evidence | PR/merge identifier, source/result SHA, approver, UTC, checks, workflow runs, effect audit. |
 | Failure rule | Unexpected job/effect triggers containment; preserve evidence; rollback or forward fix is separately human-authorized. |
 | Final response contract | `DONE`, `DONE_WITH_CONCERNS`, or `BLOCKED`; merge/post-check proof; incident if any; next TASK-VERIFY-001. |
@@ -444,7 +444,7 @@ the return to ASSESS and retarget on 2026-09-05; this does not authorize a later
 | Security | Dependabot open count zero; 532 inherited CodeQL alerts and two deleted-path historical secret alerts remain disclosed and open. |
 | Governance | Strict four-check protection, admin enforcement, linear history, conversation resolution, and force/delete denial restored and verified. |
 | Free-only constraint | Standard public-repository controls and runners only; paid validity/non-provider secret scanning disabled. |
-| Excluded effects | No release/tag/package/model-catalog/R2/deployment/credential/issue/comment operation occurred. |
+| Excluded effects | No release/tag/package/model-catalog/R2/deployment/credential or disabled-workflow issue/comment effect occurred. Dependabot auto-closed redundant PR#1/PR#2 and posted two attributed bot comments. |
 | Stop condition | `CODEX_PI_FORK_PRODUCTION_READINESS_COMPLETE`. |
 
 ## Rollback and recovery protocol
